@@ -82,3 +82,13 @@ jobs:
         run: echo Use your favorite package manager...
       - name: Cache a library
         run: echo Store packed library for quick access using artifacts or cache...
+
+  publish:
+    name: Publish the library
+    needs: [ pack ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish packed library
+        run: echo Use your favorite package manager...
+      - name: Send notifications?
+        run: echo New version is available!
