@@ -12,16 +12,47 @@ on:
 
 # Each job runs in a separate runner sequentially or in parallel
 jobs:
-  build:
+  install:
+    name: Install dependencies
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Download dependencies
+        run: echo Use your favorite package manager...
+      - name: Cache dependencies
+        run: echo Store external packages for quick access using artifacts or cache...
 
-      - name: Run a one-line script
-        run: echo Hello, world!
+  lint:
+    name: Verify code guidelines
+    needs: [ install ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify CSS files
+        run: echo Run style linter...
+      - name: Upload CSS verification results?
+        run: echo Use Github Checks to store CSS verification results?
+      - name: Verify JS files
+        run: echo Run JS linter...
+      - name: Upload JS verification results?
+        run: echo Use Github Checks to store JS verification results?
 
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+  test:
+    name: Run unit tests
+    needs: [ install ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify code specifications
+        run: echo Run unit tests...
+      - name: Upload unit test results?
+        run: echo Use Github Checks to store unit test results?
+
+  pack:
+    name: Pack a library
+    needs: [ install, lint, test ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build a library
+        run: echo Use your favorite builder...
+      - name: Pack a library
+        run: echo Use your favorite package manager...
+      - name: Cache a library
+        run: echo Store packed library for quick access using artifacts or cache...
