@@ -15,9 +15,10 @@ on:
 # we would like to cancel previous workflow run immediately.
 concurrency:
   cancel-in-progress: true
-  # `github.workflow` ensures we cancel in-progress runs of the same workflow!
-  # `github.run_id` is a fallback value which allows to avoid syntax error
-  # and is guaranteed to be both unique and defined for the run
+  # `github.workflow` ensures we cancel in-progress runs of the SAME workflow!
+  # `github.run_id`:
+  #   is a fallback value which allows to avoid syntax error and
+  #   is guaranteed to be both unique and defined for the run
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
 
 # Each job runs in a separate runner sequentially or in parallel
@@ -31,6 +32,20 @@ jobs:
       - name: Cache dependencies
         run: echo Store external packages for quick access using artifacts or cache...
 
+  audit:
+    name: Verify known vulnerabilities
+    needs: [ install ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Audit with tool \#1
+        run: echo Use tool \#1
+      - name: Upload audit results from tool \#1
+        run: echo Use Github Checks to store audit results?
+      - name: Audit with tool \#2
+        run: echo Use tool \#2
+      - name: Upload audit results from tool \#2
+        run: echo Use Github Checks to store audit results?
+
   lint:
     name: Verify code guidelines
     needs: [ install ]
@@ -38,11 +53,11 @@ jobs:
     steps:
       - name: Verify CSS files
         run: echo Run style linter...
-      - name: Upload CSS verification results?
+      - name: Upload CSS verification results
         run: echo Use Github Checks to store CSS verification results?
       - name: Verify JS files
         run: echo Run JS linter...
-      - name: Upload JS verification results?
+      - name: Upload JS verification results
         run: echo Use Github Checks to store JS verification results?
 
   test:
@@ -57,7 +72,7 @@ jobs:
 
   pack:
     name: Pack a library
-    needs: [ install, lint, test ]
+    needs: [ install, audit, lint, test ]
     runs-on: ubuntu-latest
     steps:
       - name: Build a library
