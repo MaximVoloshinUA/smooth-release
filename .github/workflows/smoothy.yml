@@ -26,58 +26,58 @@ jobs:
   install:
     name: Install dependencies
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Download dependencies
-    #     run: echo Use your favorite package manager...
-    #   - name: Cache dependencies
-    #     run: echo Store external packages for quick access using artifacts or cache...
+    steps:
+      - name: Download dependencies
+        run: echo Use your favorite package manager...
+      - name: Cache dependencies
+        run: echo Store external packages for quick access using artifacts or cache...
 
   audit:
     name: Verify known vulnerabilities
     needs: [ install ]
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Audit with tool \#1
-    #     run: echo Use tool \#1
-    #   - name: Upload audit results from tool \#1
-    #     run: echo Use Github Checks to store audit results?
-    #   - name: Audit with tool \#2
-    #     run: echo Use tool \#2
-    #   - name: Upload audit results from tool \#2
-    #     run: echo Use Github Checks to store audit results?
+    steps:
+      - name: Audit with tool \#1
+        run: echo Use tool \#1
+      - name: Upload audit results from tool \#1
+        run: echo Use Github Checks to store audit results?
+      - name: Audit with tool \#2
+        run: echo Use tool \#2
+      - name: Upload audit results from tool \#2
+        run: echo Use Github Checks to store audit results?
 
   lint:
     name: Verify code guidelines
     needs: [ install ]
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Verify CSS files
-    #     run: echo Run style linter...
-    #   - name: Upload CSS verification results
-    #     run: echo Use Github Checks to store CSS verification results?
-    #   - name: Verify JS files
-    #     run: echo Run JS linter...
-    #   - name: Upload JS verification results
-    #     run: echo Use Github Checks to store JS verification results?
+    steps:
+      - name: Verify CSS files
+        run: echo Run style linter...
+      - name: Upload CSS verification results
+        run: echo Use Github Checks to store CSS verification results?
+      - name: Verify JS files
+        run: echo Run JS linter...
+      - name: Upload JS verification results
+        run: echo Use Github Checks to store JS verification results?
 
   test:
     name: Run unit tests
     needs: [ install ]
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Verify code specifications
-    #     run: echo Run unit tests...
-    #   - name: Upload unit test results?
-    #     run: echo Use Github Checks to store unit test results?
+    steps:
+      - name: Verify code specifications
+        run: echo Run unit tests...
+      - name: Upload unit test results?
+        run: echo Use Github Checks to store unit test results?
 
   pack:
     name: Pack a library
     needs: [ install, audit, lint, test ]
     runs-on: ubuntu-latest
-    # steps:
-    #   - name: Build a library
-    #     run: echo Use your favorite builder...
-    #   - name: Pack a library
-    #     run: echo Use your favorite package manager...
+    steps:
+      - name: Build a library
+        run: echo Use your favorite builder...
+      - name: Pack a library
+        run: echo Use your favorite package manager...
     #   - name: Cache a library
     #     run: echo Store packed library for quick access using artifacts or cache...
