@@ -83,10 +83,21 @@ jobs:
       - name: Cache a library
         run: echo Store packed library for quick access using artifacts or cache...
 
+  compose:
+    name: Compose web app
+    needs: [ pack ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use packed library
+        run: echo Craft a web application that uses packed library...
+      - name: Cache web app
+        run: echo Store web app for quick access using artifacts or cache...
+
   publish:
     name: Publish the library
     needs: [ pack ]
     runs-on: ubuntu-latest
+    # opportunity: add reviewers (use environment)
     steps:
       - name: Publish packed library
         run: echo Use your favorite package manager...
