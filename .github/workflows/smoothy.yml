@@ -3,12 +3,22 @@ name: smoothy
 # Workflow triggers
 on:
   # push:
-  #   branches: [ "main", "master" ]
+  #   branches: [ main, master ]
   # pull_request:
-  #   branches: [ "main", "master" ]
+  #   branches: [ main, master ]
+  #   types: [ opened, reopened ]
 
   # Allow to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+# When a branch or a pull request receives new commit (say, fixed typo)
+# we would like to cancel previous workflow run immediately.
+concurrency:
+  cancel-in-progress: true
+  # `github.workflow` ensures we cancel in-progress runs of the same workflow!
+  # `github.run_id` is a fallback value which allows to avoid syntax error
+  # and is guaranteed to be both unique and defined for the run
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
 
 # Each job runs in a separate runner sequentially or in parallel
 jobs:
