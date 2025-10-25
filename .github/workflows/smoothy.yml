@@ -1,0 +1,27 @@
+name: smoothy
+
+# Workflow triggers
+on:
+  # push:
+  #   branches: [ "main", "master" ]
+  # pull_request:
+  #   branches: [ "main", "master" ]
+
+  # Allow to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Each job runs in a separate runner sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
