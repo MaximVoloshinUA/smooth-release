@@ -60,24 +60,25 @@ jobs:
       - name: Upload JS verification results
         run: echo Use Github Checks to store JS verification results?
 
-  test:
-    name: Run unit tests
+  poke:
+    name: Verify unit specs
     needs: [ install ]
     runs-on: ubuntu-latest
+    # opportunity: split by folder, run in parallel (use matrix, how to report?)
     steps:
-      - name: Verify code specifications
+      - name: Verify unit specifications
         run: echo Run unit tests...
       - name: Upload unit test results?
         run: echo Use Github Checks to store unit test results?
 
   pack:
     name: Pack a library
-    needs: [ install, audit, lint, test ]
+    needs: [ install, audit, lint, poke ]
     runs-on: ubuntu-latest
     steps:
       - name: Build a library
         run: echo Use your favorite builder...
       - name: Pack a library
         run: echo Use your favorite package manager...
-    #   - name: Cache a library
-    #     run: echo Store packed library for quick access using artifacts or cache...
+      - name: Cache a library
+        run: echo Store packed library for quick access using artifacts or cache...
