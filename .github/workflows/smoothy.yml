@@ -1,4 +1,4 @@
-name: smoothy
+viname: smoothy
 
 # Workflow triggers
 on:
@@ -95,11 +95,16 @@ jobs:
 
   publish:
     name: Publish the library
-    needs: [ pack ]
+    needs: [ pack, compose ]
     runs-on: ubuntu-latest
-    # opportunity: add reviewers (use environment)
+    environment:
+      name: library-distribution
+      url: ${{ steps.published_lib.outputs.page_url }}
     steps:
       - name: Publish packed library
         run: echo Use your favorite package manager...
+      - id: published_lib
+        run: echo "page_url=https://example.com/" >> "$GITHUB_OUTPUT"
       - name: Send notifications?
+        # opportunity: turn into a job
         run: echo New version is available!
