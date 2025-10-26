@@ -1,4 +1,4 @@
-viname: smoothy
+name: smoothy
 
 # Workflow triggers
 on:
