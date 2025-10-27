@@ -30,7 +30,7 @@ jobs:
       - name: Download dependencies
         run: echo Use your favorite package manager...
       - name: Cache dependencies
-        run: echo Store external packages for quick access using artifacts or cache...
+        run: echo Store external packages for quick access using cache...
 
   audit:
     name: Verify known vulnerabilities
@@ -80,8 +80,8 @@ jobs:
         run: echo Use your favorite builder...
       - name: Pack a library
         run: echo Use your favorite package manager...
-      - name: Cache a library
-        run: echo Store packed library for quick access using artifacts or cache...
+      - name: Store a library
+        run: echo Store packed library for quick access using workflow artifacts...
 
   compose:
     name: Compose web app
@@ -91,7 +91,7 @@ jobs:
       - name: Use packed library
         run: echo Craft a web application that uses packed library...
       - name: Cache web app
-        run: echo Store web app for quick access using artifacts or cache...
+        run: echo Store web app for quick access using workflow artifacts...
 
   test:
     name: Test on ${{ matrix.device }} in ${{ matrix.browser }}
@@ -137,12 +137,34 @@ jobs:
       - name: Upload test results
         run: echo Use Github Checks to store cross-browser test results?
   
-  publish:
-    name: Publish the library
-    needs: [ pack, test ]
+  deploy:
+    name: Deploy new Salmon
+    needs: [ compose ]
     runs-on: ubuntu-latest
     environment:
-      name: library-distribution
+      name: salmon
+      url: ${{ steps.deployed_webapp.outputs.page_url }}
+    steps:
+      - name: Deploy web app
+        run: echo Deploy composed web app...
+      - id: deployed_webapp
+        run: echo "page_url=https://example.com/" >> "$GITHUB_OUTPUT"
+
+  review:
+    name: External review
+    needs: [ deploy ]
+    runs-on: ubuntu-latest
+    environment:
+      name: external-review
+    steps:
+      - run: echo Review is finished.
+  
+  publish:
+    name: Publish the library
+    needs: [ pack, review, test ]
+    runs-on: ubuntu-latest
+    environment:
+      name: library-distribution-channel
       url: ${{ steps.published_lib.outputs.page_url }}
     steps:
       - name: Publish packed library
