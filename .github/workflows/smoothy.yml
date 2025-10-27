@@ -68,7 +68,7 @@ jobs:
     steps:
       - name: Verify unit specifications
         run: echo Run unit tests...
-      - name: Upload unit test results?
+      - name: Upload test results
         run: echo Use Github Checks to store unit test results?
 
   pack:
@@ -93,9 +93,53 @@ jobs:
       - name: Cache web app
         run: echo Store web app for quick access using artifacts or cache...
 
+  test:
+    name: Test on ${{ matrix.device }} in ${{ matrix.browser }}
+    needs: [ compose ]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - browser: Chrome
+            device: desktop
+            # ubuntu is for debug purposes, change to windows-latest
+            os: ubuntu-latest
+
+          - browser: Edge
+            device: desktop
+            # ubuntu is for debug purposes, change to windows-latest
+            os: ubuntu-latest
+
+          - browser: Safari
+            device: desktop
+            # ubuntu is for debug purposes, change to macos-latest
+            os: ubuntu-latest
+
+          - browser: Firefox
+            device: desktop
+            os: ubuntu-latest
+
+          - browser: Safari
+            device: iPhone 12
+            # ubuntu is for debug purposes, change to ios-latest
+            os: ubuntu-latest
+
+          - browser: Chrome
+            device: Galaxy S8
+            # ubuntu is for debug purposes, change to android-latest
+            os: ubuntu-latest
+    steps:
+      - name: Run composed app
+        run: echo Run web app on a local server in background...
+      - name: Verify cross-browser specifications
+        run: echo Run cross-browser tests...
+      - name: Upload test results
+        run: echo Use Github Checks to store cross-browser test results?
+  
   publish:
     name: Publish the library
-    needs: [ pack, compose ]
+    needs: [ pack, test ]
     runs-on: ubuntu-latest
     environment:
       name: library-distribution
